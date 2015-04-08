@@ -1,1 +1,15 @@
-Hello World!
+Dokumentacja projektu
+
+
+I. 4 fazy:		//zamień "TODO" na "DONE"
+	1. Parsowanie przypadków testowych
+		[TODO] pobranie przypadków z neta
+		[TODO] zamiana plaintextu na listę stringóœ
+	2. Tworzenie grafu
+		[TODO] struktura grafu
+		[TODO] wypełnienie wierzchołków 
+		[TODO] wypełnienie łuków
+	3. Znajdowanie ścieżki/sekwencji w grafie
+		[TODO] implementacja algorytmu selektywnego komiwojażera
+		[TODO] tuning algorytmu
+		[TODO] odnajdowanie rozwiązania 
