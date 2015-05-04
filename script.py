@@ -1,11 +1,28 @@
 import networkx as nx
 
+import sys
+
+sequences = []
+
+filename = sys.argv[1]
+f = open(filename, 'r')
+for line in f:
+    sequences.append(line[:-1])
+
+
 # TODO import sequences from a file
-sequences = ['ATGC','TGCA','GCGG','CAGG','AGGT','GGTC','GTCC','CCAT','CATA']
-n = 13                  # complete sequence length
+#sequences = ['ATGC','TGCA','GCGG','CAGG','AGGT','GGTC','GTCC','CCAT','CATA']
+file_info  = filename.split('.')
+if '-' in filename:
+    n = file_info[1][0:file_info[1].find('-')]  # complete sequence length
+elif '+' in filename:
+        n = file_info[1][0:file_info[1].find('+')]  # complete sequence length
+
 l = len(sequences[1])   # single sequence length
 G = nx.DiGraph()        # main graph
 
+#print n
+#print l
 
 # Step 1.
 # Create vertices in a graph.
@@ -74,3 +91,17 @@ def find_sequence(v1):
 
 # Step 5.
 # Finds best path among all starting nodes
+
+def find_best_sequence():
+    for v in G.nodes(False):
+        counter = 0
+        for a in G.in_edges(v):
+            if a[1] > 1:
+                counter = counter + 1
+        if counter == len(G.in_edges(v)):
+            sequence = find_sequence(a)
+        print sequence
+    return 0
+
+find_best_sequence()
+
