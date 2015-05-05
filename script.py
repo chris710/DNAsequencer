@@ -3,15 +3,16 @@ import sys
 
 sequences = []
 
+# Loading sequences from a file.
 filename = sys.argv[1]
 f = open(filename, 'r')
 for line in f:
         sequences.append(line[:-1])
 file_info  = filename.split('.')
 if '-' in filename:
-    n = file_info[1][0:file_info[1].find('-')]  # complete sequence length
+    n = int(file_info[1][0:file_info[1].find('-')])     # complete sequence length
 elif '+' in filename:
-    n = file_info[1][0:file_info[1].find('+')]  # complete sequence length
+    n = int(file_info[1][0:file_info[1].find('+')])          # complete sequence length
 
 l = len(sequences[1])   # single sequence length
 G = nx.DiGraph()        # main graph
@@ -34,7 +35,6 @@ def calc_diff(s1, s2):
             continue
         it += 1
     return diff
-
 
 for v1 in G.nodes(False):
     for v2 in G.nodes(False):
@@ -90,7 +90,7 @@ def find_sequence(v1):
 
 
 # Step 5.
-# Finds best path among all starting nodes
+# Finds best path among all starting nodes.
 def find_best_sequence():
     best = {}
     for v in G.nodes(False):
@@ -100,12 +100,12 @@ def find_best_sequence():
                 best = seq
             if seq['size'] > best['size']:
                 best = seq
-            print(best['path'])
-        print('miss')
+            # print(best['path'])   # for debugging purposes
+        # print('miss')     # for debugging purposes
     return best
 
 
-# Checks whether a node can be used as a starting point
+# Checks whether a node can be used as a starting point.
 def check_first(v):
     for a in G.in_edges(v, True):
         if a[2]['weight'] == 1:
