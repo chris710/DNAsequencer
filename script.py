@@ -27,7 +27,7 @@ for s in sequences:
 def calc_diff(s1, s2):
     diff = 1
     it = 0
-    while it+diff < l:    # TODO correct to l-3 later.
+    while it+diff < l-2:
         if s2[it] != s1[it+diff]:
             diff += 1
             it = 0
@@ -41,7 +41,7 @@ for v1 in G.nodes(False):
         if v1 == v2:
             continue
         diff = calc_diff(v1, v2)
-        if diff < l:
+        if diff < l-3:
             G.add_edge(v1, v2, weight=diff)
 
 
@@ -71,16 +71,19 @@ def find_sequence(v1):
     result = {
         'path': [],
         'size': 0,
+        'str': v1,
     }     # first is path, then size and sequence length
     result['path'].append(v1)
     N = l           # sequence limit counter
-    while N < n:    # TODO finda way to glue sequences into a string and add to result
+    while N < n:
         v2 = find_next(v1)
         if not v2:
             break
         result['path'].append(v2)
-        N += calc_diff(v1, v2)
+        diff = calc_diff(v1, v2)
+        N += diff
         v1 = v2
+        result['str'] += v2[-diff:]
         result['size'] += 1
     result['length'] = N
     return result
@@ -91,14 +94,23 @@ def find_sequence(v1):
 def find_best_sequence():
     best = {}
     for v in G.nodes(False):
-        # TODO optimize
-        seq = find_sequence(v)
-        if not ('size' in best.keys()):
-            best = seq
-        if seq['size'] > best['size']:
-            best = seq
+        if check_first(v):
+            seq = find_sequence(v)
+            if not ('size' in best.keys()):
+                best = seq
+            if seq['size'] > best['size']:
+                best = seq
+            print(best['path'])
+        print('miss')
     return best
 
+
+# Checks whether a node can be used as a starting point
+def check_first(v):
+    for a in G.in_edges(v, True):
+        if a[2]['weight'] == 1:
+            return False
+    return True
 
 # Test section.
 best = find_best_sequence()
