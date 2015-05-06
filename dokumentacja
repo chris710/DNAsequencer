@@ -3,13 +3,20 @@ Dokumentacja projektu
 
 I. 4 fazy:		//zamień "TODO" na "DONE"
 	1. Parsowanie przypadków testowych
-		[TODO] pobranie przypadków z neta
-		[TODO] zamiana plaintextu na listę stringóœ
+		[DONE] pobranie przypadków z neta
+		[DONE] zamiana plaintextu na listę stringóœ
 	2. Tworzenie grafu
-		[TODO] struktura grafu
-		[TODO] wypełnienie wierzchołków 
-		[TODO] wypełnienie łuków
+		[DONE] struktura grafu
+		[DONE] wypełnienie wierzchołków
+		[DONE] wypełnienie łuków
 	3. Znajdowanie ścieżki/sekwencji w grafie
-		[TODO] implementacja algorytmu selektywnego komiwojażera
+		[CHANGED] implementacja algorytmu selektywnego komiwojażera
+		[DONE] implementacja zmodyfikowanego algorytmu chciwego
 		[TODO] tuning algorytmu
-		[TODO] odnajdowanie rozwiązania 
+		[DONE] odnajdowanie rozwiązania
+	4. Testy
+	    [TODO] określenie wymaganych testów
+	    [TODO] wnioski
+	    [TODO] sprawko
+	    [TODO] oddanie pracy
+
