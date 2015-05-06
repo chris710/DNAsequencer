@@ -20,13 +20,12 @@ G = nx.DiGraph()        # main graph
 # Step 1.
 # Create vertices in a graph.
 for s in sequences:
-    G.add_node(s, visited=False)    # TODO implement checking if node was visited
+    G.add_node(s, visited=False)    # implement checking if node was visited
 
 
 # Step 2.
 # Create arches between vertices.
 def calc_diff(s1, s2):
-    # TODO somtimes there are tuples instead of strings
     diff = 1
     it = 0
     while it+diff < l-2:
@@ -52,10 +51,14 @@ def find_next(v1):
     best = {}
     for a in G.out_edges(v1[0], True):
         v2 = a[1]
+        visited = G.node[a[1]]['visited']
         for a2 in G.out_edges(v2, True):
+            weight = a2[2]['weight']
+            if visited:
+                weight += 1
             if not ('sum' in best.keys()):
                 best['sum'] = a2[2]['weight']
-            if a2[2]['weight'] < best['sum']:
+            if weight < best['sum']:
                 best['sum'] = a2[2]['weight']
         best['sum'] += a[2]['weight']
         if not ('value' in best.keys()):
@@ -79,18 +82,18 @@ def find_sequence(v1):
     N = l           # sequence limit counter
     while N < n:
         v2_name = find_next(v1)
-        v2_visited = G.node[v2_name]
-        # TODO check as visited
-        v2_visited = True
+        v2_visited = G.node[v2_name]['visited']
         v2 = [v2_name, {v2_visited}]
         if not v2[0]:
             break
         result['path'].append(v2)
         diff = calc_diff(v1[0], v2[0])
         N += diff
-        v1 = v2
         result['str'] += v2[0][-diff:]
-        result['size'] += 1     # TODO increase only if not visited
+        if v2_visited:
+            result['size'] += 1     # increase only if not visited
+        G.node[v2_name]['visited'] = True   # check as visited
+        v1 = v2
     result['length'] = N
     return result
 
@@ -102,7 +105,7 @@ def find_best_sequence():
     counter = 0
     for v in G.nodes(True):
         counter += 1
-        # TODO reset visited flags
+        reset_visited()     # reset visited flags
         print ("%.2f" % float(float(counter)/len(sequences)*100) + ' %')    # show percentage
         if check_first(v):
             seq = find_sequence(v)
@@ -115,6 +118,11 @@ def find_best_sequence():
     return best
 
 
+# Resets visited flags
+def reset_visited():
+    for v in G.nodes(True):
+        v[1]['visited'] = False     # check as visited
+
 # Checks whether a node can be used as a starting point.
 def check_first(v):
     for a in G.in_edges(v[0], True):
@@ -126,4 +134,4 @@ def check_first(v):
 best = find_best_sequence()
 print(best['str'])
 print(str(best['size'])+"/"+str(len(sequences))+" max")
-print(str(best['size']/float(len(sequences))*100)+"% efficiency")
+print("%.2f" % float(best['size']/float(len(sequences))*100)+"% efficiency")
