@@ -72,7 +72,7 @@ def find_sequence(v1):
     result = {
         'path': [],
         'size': 0,
-        'str': v1,
+        'str': v1[0],
     }     # first is path, then size and sequence length
     result['path'].append(v1)
     v1[1]['visited'] = True    # check as visited
@@ -86,7 +86,7 @@ def find_sequence(v1):
         if not v2[0]:
             break
         result['path'].append(v2)
-        diff = calc_diff(v1, v2)
+        diff = calc_diff(v1[0], v2[0])
         N += diff
         v1 = v2
         result['str'] += v2[0][-diff:]
@@ -124,4 +124,6 @@ def check_first(v):
 
 # Test section.
 best = find_best_sequence()
-print(best['path'])
+print(best['str'])
+print(str(best['size'])+"/"+str(len(sequences))+" max")
+print(str(best['size']/float(len(sequences))*100)+"% efficiency")
