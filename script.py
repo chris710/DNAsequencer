@@ -20,7 +20,7 @@ G = nx.DiGraph()        # main graph
 # Step 1.
 # Create vertices in a graph.
 for s in sequences:
-    G.add_node(s)
+    G.add_node(s, visited=False)    # TODO implement checking if node was visited
 
 
 # Step 2.
@@ -49,7 +49,7 @@ for v1 in G.nodes(False):
 # Find one step of the path.
 def find_next(v1):
     best = {}
-    for a in G.out_edges(v1, True):
+    for a in G.out_edges(v1[0], True):
         v2 = a[1]
         for a2 in G.out_edges(v2, True):
             if not ('sum' in best.keys()):
@@ -74,17 +74,22 @@ def find_sequence(v1):
         'str': v1,
     }     # first is path, then size and sequence length
     result['path'].append(v1)
+    v1[1]['visited'] = True    # check as visited
     N = l           # sequence limit counter
     while N < n:
-        v2 = find_next(v1)
-        if not v2:
+        v2_name = find_next(v1)
+        v2_visited = G.node[v2_name]
+        # TODO check as visited
+        v2_visited = True
+        v2 = {v2_name,v2_visited}
+        if not v2[0]:
             break
         result['path'].append(v2)
         diff = calc_diff(v1, v2)
         N += diff
         v1 = v2
-        result['str'] += v2[-diff:]
-        result['size'] += 1
+        result['str'] += v2[0][-diff:]
+        result['size'] += 1     # TODO increase only if not visited
     result['length'] = N
     return result
 
@@ -93,7 +98,10 @@ def find_sequence(v1):
 # Finds best path among all starting nodes.
 def find_best_sequence():
     best = {}
-    for v in G.nodes(False):
+    counter = 0
+    for v in G.nodes(True):
+        counter += 1
+        print ("%.2f" % float(float(counter)/len(sequences)*100) + ' %')    # show percentage
         if check_first(v):
             seq = find_sequence(v)
             if not ('size' in best.keys()):
@@ -107,7 +115,7 @@ def find_best_sequence():
 
 # Checks whether a node can be used as a starting point.
 def check_first(v):
-    for a in G.in_edges(v, True):
+    for a in G.in_edges(v[0], True):
         if a[2]['weight'] == 1:
             return False
     return True
