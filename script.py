@@ -26,6 +26,7 @@ for s in sequences:
 # Step 2.
 # Create arches between vertices.
 def calc_diff(s1, s2):
+    # TODO somtimes there are tuples instead of strings
     diff = 1
     it = 0
     while it+diff < l-2:
@@ -81,7 +82,7 @@ def find_sequence(v1):
         v2_visited = G.node[v2_name]
         # TODO check as visited
         v2_visited = True
-        v2 = {v2_name,v2_visited}
+        v2 = [v2_name, {v2_visited}]
         if not v2[0]:
             break
         result['path'].append(v2)
@@ -101,6 +102,7 @@ def find_best_sequence():
     counter = 0
     for v in G.nodes(True):
         counter += 1
+        # TODO reset visited flags
         print ("%.2f" % float(float(counter)/len(sequences)*100) + ' %')    # show percentage
         if check_first(v):
             seq = find_sequence(v)
