@@ -1,5 +1,7 @@
 import networkx as nx
 import sys
+import csv
+import time
 
 sequences = []
 
@@ -133,6 +135,11 @@ def check_first(v):
 
 # Test section.
 best = find_best_sequence()
+
 print(best['str'])
 print(str(best['size'])+"/"+str(len(sequences))+" max")
 print("%.2f" % float(best['size']/float(len(sequences))*100)+"% efficiency")
+
+with open('stat.csv', 'wb') as csvfile:
+    writer = csv.writer(csvfile, delimiter=';')
+    writer.writerow([best['str'], best['size'], len(sequences), float(best['size']/float(len(sequences))*100), time.clock()])
