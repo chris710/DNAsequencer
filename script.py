@@ -78,19 +78,20 @@ def find_sequence(v1):
         'str': v1[0],
     }     # first is path, then size and sequence length
     result['path'].append(v1)
-    v1[1]['visited'] = True    # check as visited
+    # v1[1]['visited'] = True    # check as visited
+    G.node[v1[0]]['visited'] = True    # check as visited
     N = l           # sequence limit counter
     while N < n:
         v2_name = find_next(v1)
-        v2_visited = G.node[v2_name]['visited']
-        v2 = [v2_name, {v2_visited}]
+        v2_visited = G.node[v2_name]
+        v2 = (v2_name, v2_visited)
         if not v2[0]:
             break
         result['path'].append(v2)
         diff = calc_diff(v1[0], v2[0])
         N += diff
         result['str'] += v2[0][-diff:]
-        if v2_visited:
+        if not v2_visited['visited']:
             result['size'] += 1     # increase only if not visited
         G.node[v2_name]['visited'] = True   # check as visited
         v1 = v2
