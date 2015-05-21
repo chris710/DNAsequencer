@@ -57,7 +57,7 @@ def find_next(v1):
         for a2 in G.out_edges(v2, True):
             weight = a2[2]['weight']
             if visited:
-                weight += 1
+                weight += l/2
             if not ('sum' in best.keys()):
                 best['sum'] = a2[2]['weight']
             if weight < best['sum']:
