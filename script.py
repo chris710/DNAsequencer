@@ -140,6 +140,6 @@ print(best['str'])
 print(str(best['size'])+"/"+str(len(sequences))+" max")
 print("%.2f" % float(best['size']/float(len(sequences))*100)+"% efficiency")
 
-with open('stat.csv', 'ab') as csvfile:
+with open('stat_new.csv', 'ab') as csvfile:
     writer = csv.writer(csvfile, delimiter=';')
     writer.writerow([filename, best['size'], len(sequences), float(best['size']/float(len(sequences))*100), time.clock()])
