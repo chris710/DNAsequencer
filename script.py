@@ -136,8 +136,8 @@ def check_first(v):
 # Test section.
 best = find_best_sequence()
 
-print(best['str'])
-print(str(best['size'])+"/"+str(len(sequences))+" max")
+#print(best['str'])
+#print(str(best['size'])+"/"+str(len(sequences))+" max")
 print("%.2f" % float(best['size']/float(len(sequences))*100)+"% efficiency")
 
 with open('stat_new.csv', 'ab') as csvfile:
